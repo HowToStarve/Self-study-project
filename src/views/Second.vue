@@ -10,7 +10,7 @@
       <div class="w-100 row mb-2">
         <div class="w-50 imagination">
           <img class="news-img"
-               :src="require('@/assets/img/Borda.png')"
+               :src="require('@/assets/img/Voting.png')"
                @click="getNotifications">
         </div>
         <div class="row mb-2 mt-2 text-white w-50">
