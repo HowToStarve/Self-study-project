@@ -27,9 +27,17 @@
 import {notify} from "@kyvg/vue3-notification";
 export default {
   name: "IndexView",
+  mounted() {
+    document.addEventListener('keydown', this.onKeyDown)
+  },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown)
+  },
   data() {
     return {
-      text: '<p>Привет ну здарова ты вообще как поживаешь?</p><p>Привет</p><p>Привет</p><p>Привет</p><p>Привет</p> здарова как дела?'
+      text: '<p>Привет ну здарова ты вообще как поживаешь?</p>' +
+          '<p>Привет</p>' +
+          '<p>Привет</p><p>Привет</p><p>Привет</p> здарова как дела?'
     }
   },
   methods: {
