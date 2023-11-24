@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
-      News
+      History
     </div>
     <div
       class="main-text"

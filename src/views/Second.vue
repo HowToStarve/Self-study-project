@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
       <div class="row justify-content-center current-time">
-        <h3>{{ $t('message.bosses.view.currentTime') }}: {{ currentTime }}</h3>
+        <h3>Xnj: {{ currentTime }}</h3>
       </div>
 
       <div
@@ -38,9 +38,6 @@
 <script>
 import Bosses from "@/configuration/bosses";
 
-import i18n from "@/lang/i18n";
-const { t } = i18n.global;
-
 export default {
   name: "BossesView",
   mounted() {
@@ -50,7 +47,7 @@ export default {
   },
   data() {
     return {
-      currentTime: t('message.bosses.view.load'),
+      currentTime: 'xnj',
       bosses: Bosses
     }
   },

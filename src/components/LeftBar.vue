@@ -11,7 +11,7 @@
         </div>
       </router-link>
 
-      <router-link to="/">
+      <router-link to="/second">
         <div class="left-button">
           <i class="fas fa-khanda fa-3x"></i>
           <span>Вторая ссылка</span>

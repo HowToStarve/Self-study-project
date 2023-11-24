@@ -3,9 +3,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'index',
-    component: () => import(/* webpackChunkName: "index" */ '../views/IndexView.vue'),
+    name: 'first',
+    component: () => import(/* webpackChunkName: "index" */ '../views/First.vue'),
     strict: true
+  },
+  {
+    path: '/second',
+    name: 'second',
+    component: () => import(/* webpackChunkName: "index" */ '../views/Second.vue')
   }
 ]
 
