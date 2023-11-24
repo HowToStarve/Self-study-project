@@ -1,34 +1,22 @@
 <template>
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
-      Bosses
+      History
     </div>
-
-    <div class="container-fluid">
-      <div class="row justify-content-center current-time">
-        <h3>Xnj: {{ currentTime }}</h3>
-      </div>
-
-      <div
-          v-for="boss in bosses"
-          :key="boss.time"
-          class="row w-100 boss-row mb-2"
-          :class="{ inactive: isPassed(boss.time) }"
-      >
-        <div class="col-4 text-left pl-0">
-          <img
-              :src="boss.img"
-              :alt="boss.name"
-              class="boss-image"
-          >
+    <div
+      class="main-text">
+    </div>
+    <div class="container-fluid row w-100">
+      <div class="w-100 row mb-2">
+        <div class="w-50 imagination">
+          <img class="news-img"
+               :src="require('@/assets/img/Borda.png')"
+               @click="getNotifications">
         </div>
-
-        <div class="col-4 text-center font-weight-bold my-auto boss-name">
-          {{ boss.name }}
-        </div>
-
-        <div class="col-4 text-right my-auto pr-5 boss-time">
-          {{ boss.time }}
+        <div class="row mb-2 mt-2 text-white w-50">
+          <div class="main-text"
+               v-html="text">
+          </div>
         </div>
       </div>
     </div>
@@ -36,73 +24,101 @@
 </template>
 
 <script>
-import Bosses from "@/configuration/bosses";
-
+import {notify} from "@kyvg/vue3-notification";
 export default {
-  name: "BossesView",
-  mounted() {
-    setInterval(() => {
-      this.updateTime()
-    }, 1000)
-  },
+  name: "IndexView",
   data() {
     return {
-      currentTime: 'xnj',
-      bosses: Bosses
+      text: '<p>Привет ну здарова ты вообще как поживаешь?</p><p>Привет</p><p>Привет</p><p>Привет</p><p>Привет</p> здарова как дела?'
     }
   },
   methods: {
-    updateTime() {
-      this.currentTime = ( new Date() ).toLocaleString([], { timeZone: 'Europe/Moscow' })
-    },
-
-    isPassed(time) {
-        let date = new Date(this.currentTime)
-        let nowHour = date.getHours()
-        let bossHour = parseInt( time.split(':')[0] )
-        //
-        // if(bossHour < 6)
-        //   bossHour += 24
-        //
-        // if(nowHour < 6)
-        //   nowHour += 24
-
-        return nowHour >= bossHour
+    getNotifications() {
+      notify({
+        title: 'knock',
+        text: 'ok',
+        type: 'warn'
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+ul {
+  list-style-type: none;
+}
 
-  .current-time, .boss-name, .boss-time {
-    color: #7ca4c8;
-  }
+p {
+  width: 100%;
+}
 
-  .boss-row {
-    height: 128px;
-    border: 2px solid #7ca4c8;
-    background: #2c273f;
-  }
+.container-fluid {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  height: 60rem;
+  display: block;
+}
 
+.container-fluid::-webkit-scrollbar {
+  display: none;
+}
 
-  .boss-row.inactive {
-    filter: grayscale(1.0);
-  }
+.container-fluid {
+  display: flex;
+  position: relative;
+  min-height: 15rem;
+  margin-top: 1rem;
+  background: #151020;
+  border: 2px solid #7ca4c8;
+  color: white;
+  padding-left: 0.25rem;
+}
 
-  .boss-image {
-    height: 124px;
-    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
-    /*clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);*/
-  }
+.news-img {
+  height: 850px;
+  width: 650px;
+  border: 3px solid #7ca4c8;
+}
 
-  .boss-name {
-    font-size: 24px;
-  }
+@keyframes pulse {
+  0% { color: #7ca4c8 }
+  50% { color: lightcoral }
+  100% { color: #7ca4c8 }
+}
 
-  .boss-time {
-    font-family: AncientModernTales, serif;
-    font-size: 36px;
-  }
+.loading {
+  width: 14px;
+  height: 14px;
+  animation: rotate 1s infinite linear;
+  border-radius: 14px;
+  box-shadow: 36px 0 0 0 #7ca4c8, 22px 28px 0 0 #7ca4c8, -7.9px 35px 0 0 #7ca4c8, -32.4px 16px 0 0 #7ca4c8, -32.4px -15.5px 0 0 #7ca4c8, -7.9px -34.9px 0 0 #7ca4c8, 22px -28.1px 0 0 #7ca4c8;
 
+  margin: 10rem auto 0;
+}
+
+.card-list {
+  display: grid;
+  grid-gap: 1em;
+}
+
+.imagination {
+  position: relative;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+<style>
+.main-text p {
+  width: 100%;
+}
 </style>

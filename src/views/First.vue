@@ -4,14 +4,21 @@
       History
     </div>
     <div
-      class="main-text"
-      @click="getNotifications">
+      class="main-text">
     </div>
-    <div class="container-fluid">
-      <ul
-          :style="gridStyle"
-          class="card-list">
-      </ul>
+    <div class="container-fluid row w-100">
+      <div class="w-100 row mb-2">
+        <div class="w-50 imagination">
+          <img class="news-img"
+               :src="require('@/assets/img/Borda.png')"
+               @click="getNotifications">
+        </div>
+        <div class="row mb-2 mt-2 text-white w-50">
+          <div class="main-text"
+               v-html="text">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -22,24 +29,16 @@ export default {
   name: "IndexView",
   data() {
     return {
-      news: [],
-      numberOfColumns: 1
+      text: '<p>Привет ну здарова ты вообще как поживаешь?</p><p>Привет</p><p>Привет</p><p>Привет</p><p>Привет</p> здарова как дела?'
     }
   },
-  computed: {
-    gridStyle() {
-      return {
-        gridTemplateColumns: `repeat(${this.numberOfColumns}, minmax(100px, 1fr))`
-      }
-    },
-    methods: {
-      getNotifications() {
-        notify({
-          title: 'knock',
-          text: 'ok',
-          type: 'warn'
-        })
-      }
+  methods: {
+    getNotifications() {
+      notify({
+        title: 'knock',
+        text: 'ok',
+        type: 'warn'
+      })
     }
   }
 }
@@ -48,6 +47,10 @@ export default {
 <style scoped>
 ul {
   list-style-type: none;
+}
+
+p {
+  width: 100%;
 }
 
 .container-fluid {
@@ -62,6 +65,7 @@ ul {
 }
 
 .container-fluid {
+  display: flex;
   position: relative;
   min-height: 15rem;
   margin-top: 1rem;
@@ -69,6 +73,12 @@ ul {
   border: 2px solid #7ca4c8;
   color: white;
   padding-left: 0.25rem;
+}
+
+.news-img {
+  height: 850px;
+  width: 650px;
+  border: 3px solid #7ca4c8;
 }
 
 @keyframes pulse {
@@ -90,6 +100,16 @@ ul {
 .card-list {
   display: grid;
   grid-gap: 1em;
+}
+
+.imagination {
+  position: relative;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
 }
 
 @keyframes rotate {
