@@ -11,9 +11,11 @@
         <div class="w-50 column imagination">
           <img class="news-img"
                :src="require('@/assets/img/Borda.png')"
+               alt="borodina"
                @click="getNotifications">
           <img class="news-img"
                :src="require('@/assets/img/Voting.png')"
+               alt="borodina"
                @click="getNotifications">
         </div>
         <div class="row mb-2 mt-5 text-white w-50">
@@ -108,21 +110,6 @@ ul {
   0% { color: #7ca4c8 }
   50% { color: lightcoral }
   100% { color: #7ca4c8 }
-}
-
-.loading {
-  width: 14px;
-  height: 14px;
-  animation: rotate 1s infinite linear;
-  border-radius: 14px;
-  box-shadow: 36px 0 0 0 #7ca4c8, 22px 28px 0 0 #7ca4c8, -7.9px 35px 0 0 #7ca4c8, -32.4px 16px 0 0 #7ca4c8, -32.4px -15.5px 0 0 #7ca4c8, -7.9px -34.9px 0 0 #7ca4c8, 22px -28.1px 0 0 #7ca4c8;
-
-  margin: 10rem auto 0;
-}
-
-.card-list {
-  display: grid;
-  grid-gap: 1em;
 }
 
 .imagination {

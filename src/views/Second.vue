@@ -124,41 +124,10 @@ table {
   padding-left: 0.25rem;
 }
 
-.news-img {
-  height: 850px;
-  width: 650px;
-  border: 3px solid #7ca4c8;
-}
-
 @keyframes pulse {
   0% { color: #7ca4c8 }
   50% { color: lightcoral }
   100% { color: #7ca4c8 }
-}
-
-.loading {
-  width: 14px;
-  height: 14px;
-  animation: rotate 1s infinite linear;
-  border-radius: 14px;
-  box-shadow: 36px 0 0 0 #7ca4c8, 22px 28px 0 0 #7ca4c8, -7.9px 35px 0 0 #7ca4c8, -32.4px 16px 0 0 #7ca4c8, -32.4px -15.5px 0 0 #7ca4c8, -7.9px -34.9px 0 0 #7ca4c8, 22px -28.1px 0 0 #7ca4c8;
-
-  margin: 10rem auto 0;
-}
-
-.card-list {
-  display: grid;
-  grid-gap: 1em;
-}
-
-.imagination {
-  position: relative;
-  display: flex;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-
 }
 
 @keyframes rotate {

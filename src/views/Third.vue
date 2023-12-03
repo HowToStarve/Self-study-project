@@ -134,16 +134,6 @@ p {
   grid-gap: 1em;
 }
 
-.imagination {
-  position: relative;
-  display: flex;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-
-}
-
 @keyframes rotate {
   to { transform: rotate(360deg); }
 }
