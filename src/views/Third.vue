@@ -6,39 +6,52 @@
     <div
         class="main-text">
     </div>
-    <div class="container-fluid row w-100">
-      <div class="w-100 row mb-2">
-        <div class="w-50 imagination">
-          <img class="news-img"
-               :src="require('@/assets/img/EvilNeuroOne.png')"
-               alt="Plush"
-               @click="getNotifications">
-        </div>
-        <div class="row mb-2 mt-2 text-white w-50">
-          <div class="main-text"
-               v-html="text">
-          </div>
-        </div>
-      </div>
+
+    <div class="container-fluid">
+        <ag-grid-vue
+            :class="themeClass + ' w-100'"
+            :rowData="row"
+            :columnDefs="column"
+        >
+        </ag-grid-vue>
     </div>
   </div>
 </template>
 
 <script>
 import {notify} from "@kyvg/vue3-notification";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridVue } from "ag-grid-vue3";
 export default {
   name: "IndexView",
-  mounted() {
-    document.addEventListener('keydown', this.onKeyDown)
-  },
-  beforeUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown)
+  components: {
+    AgGridVue
   },
   data() {
     return {
-      text: '<p>Привет ну здарова ты вообще как поживаешь?</p>' +
-          '<p>Привет</p><p>Привет</p><p>Привет</p><p>Привет</p>' +
-          ' здарова как дела?'
+      row: [
+        {hello: '9', hi: '1'},
+        {hello: '8', hi: '2'},
+        {hello: '7', hi: '3'},
+        {hello: '6', hi: '4'},
+        {hello: '5', hi: '5'},
+        {hello: '4', hi: '6'},
+        {hello: '3', hi: '7'},
+        {hello: '2', hi: '8'},
+        {hello: '1', hi: '9'}
+      ],
+      column: [
+          {
+            field: 'hello',
+            width: 850
+          },
+          {
+            field: 'hi',
+            width: 850
+          }
+      ],
+      themeClass: "ag-theme-quartz-dark"
     }
   },
   methods: {
@@ -49,8 +62,11 @@ export default {
         type: 'warn'
       })
     },
-    onKeyDown(e) {
-      console.log(e.key)
+    addColumns(column) {
+      this.column.push(column)
+    },
+    addRow(row){
+      this.row.push(row)
     }
   }
 }

@@ -10,6 +10,7 @@
   "dependencies": {
     "@kyvg/vue3-notification": "^2.7.0",
     "@tinymce/tinymce-vue": "^4.0.7",
+    "ag-grid-vue3": "^31.0.0",
     "bootstrap": "^4.6.2",
     "core-js": "^3.8.3",
     "leader-line-vue": "^2.1.1",
