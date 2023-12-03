@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
-      History
+      Example
     </div>
     <div
         class="main-text">
@@ -9,7 +9,7 @@
 
     <div class="container-fluid">
         <ag-grid-vue
-            :class="themeClass + ' w-100'"
+            :class="themeClass + ' w-100 ml-2'"
             :rowData="row"
             :columnDefs="column"
         >
@@ -27,6 +27,10 @@ export default {
   name: "IndexView",
   components: {
     AgGridVue
+  },
+  beforeUnmount() {
+    this.row = []
+    this.column = []
   },
   data() {
     return {
