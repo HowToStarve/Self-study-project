@@ -18,14 +18,13 @@
         </div>
       </router-link>
 
-      <router-link to="/">
+      <router-link to="/third">
         <div class="left-button">
           <i class="fas fa-box fa-3x"></i>
           <span>Третья ссылка</span>
         </div>
       </router-link>
     </div>
-
   </div>
 </template>
 

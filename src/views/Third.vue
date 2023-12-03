@@ -4,14 +4,14 @@
       History
     </div>
     <div
-      class="main-text">
+        class="main-text">
     </div>
     <div class="container-fluid row w-100">
       <div class="w-100 row mb-2">
         <div class="w-50 imagination">
           <img class="news-img"
-               :src="require('@/assets/img/Borda.png')"
-               alt="borodina"
+               :src="require('@/assets/img/EvilNeuroOne.png')"
+               alt="Plush"
                @click="getNotifications">
         </div>
         <div class="row mb-2 mt-2 text-white w-50">
@@ -50,7 +50,7 @@ export default {
       })
     },
     onKeyDown(e) {
-        console.log(e.key)
+      console.log(e.key)
     }
   }
 }
@@ -88,7 +88,7 @@ p {
 }
 
 .news-img {
-  height: 850px;
+  height: 750px;
   width: 650px;
   border: 3px solid #7ca4c8;
 }
