@@ -5,10 +5,10 @@
       @post="(columns) => { createAlternatives(columns) }"
   />
   <AddVotes
-      v-if="isInAddingVotes && column.length"
+      v-if="isInAddingVotes && alternatives.length"
       v-bind:columns = "alternatives"
       @close="isInAddingVotes = false"
-      @post="(rows) => { createFullTable(rows) }"
+      @post="(rows, alternativeVotes) => { createFullTable(rows, alternativeVotes) }"
   />
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
@@ -64,15 +64,15 @@ export default {
     return {
       alternatives: [],
       row: [
-        {Voters: '9', Alternatives: '1'},
-        {Voters: '8', Alternatives: '2'},
-        {Voters: '7', Alternatives: '3'},
-        {Voters: '6', Alternatives: '4'},
-        {Voters: '5', Alternatives: '5'},
-        {Voters: '4', Alternatives: '6'},
-        {Voters: '3', Alternatives: '7'},
-        {Voters: '2', Alternatives: '8'},
-        {Voters: '1', Alternatives: '9'}
+        {Voters: 9, Alternatives: '1'},
+        {Voters: 8, Alternatives: '2'},
+        {Voters: 7, Alternatives: '3'},
+        {Voters: 6, Alternatives: '4'},
+        {Voters: 5, Alternatives: '5'},
+        {Voters: 4, Alternatives: '6'},
+        {Voters: 3, Alternatives: '7'},
+        {Voters: 2, Alternatives: '8'},
+        {Voters: 1, Alternatives: '9'}
       ],
       column: [
           {
@@ -104,11 +104,15 @@ export default {
       }
       this.isInAddingAlternatives = false
     },
-    createFullTable(rows) {
+    createFullTable(rows, alternativeVotes) {
       this.row = []
       for(let i = 0; i < rows.length; ++i) {
         this.addRow(rows[i])
       }
+      for(let i = 0; i < alternativeVotes.length; ++i) {
+        console.log(alternativeVotes[i])
+      }
+      this.isInAddingVotes = false
     },
     addAlternatives(column) {
       this.alternatives.push(column)

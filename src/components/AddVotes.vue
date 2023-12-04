@@ -1,61 +1,69 @@
 <template>
   <div class="modal-mask">
     <div class="modal-wrapper">
-      <div class="modal-container">
+      <div class="row">
+        <div class="modal-container">
 
-        <div class="modal-header">Votes</div>
+          <div class="modal-header">Votes</div>
 
-        <div class="modal-body">
-          <div class="container-fluid w-100">
-            <div class="w-100 row mb-2 text-white">
-              <div class="w-50 mt-5">
-                <div
-                    type="checkbox"
-                    :key="index"
-                    v-for="(column, index) in columns">
+          <div class="modal-body">
+            <div class="container-fluid w-100">
+              <div class="w-100 row mb-2 text-white">
+                <div class="w-50 mt-5">
+                  <div
+                      type="checkbox"
+                      :key="index"
+                      v-for="(column, index) in columns">
+                    <input
+                          type="checkbox"
+                          v-model="expectedRow"
+                          :value="column"
+                          :id="index"
+
+                    >
+                    <label :for="index">
+                      {{column}}
+                    </label>
+                  </div>
                   <input
-                        type="checkbox"
-                        v-model="expectedRow"
-                        :value="column"
-                        :id="index"
+                         type="number"
+                         v-model="votes"
+                         placeholder="Количество голосующих"
+                         @input="checkInput($event)"
                   >
-                  <label :for="index">
-                    {{column}}
-                  </label>
+                  <button class="button1"
+                          v-on:click="addRows()">
+                    Добавить голосующих
+                  </button>
                 </div>
-                <input v-model="votes" placeholder="Количество голосующих">
-                <button class="button1"
-                        v-on:click="addRows(expectedRow)">
-                  Добавить голосующих
-                </button>
-              </div>
-              <div class="row text-white w-50">
-                <div class="main-text">
-                  {{ getName(expectedRow) }}
+                <div class="row text-white w-50">
+                  <div class="main-text">
+                    {{ getName(expectedRow) }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="modal-footer">
+            <span class="newsPage-closer ml-3"
+                  @click="postVotes">Post</span>
+            <span class="newsPage-closer ml-3"
+                  @click="$emit('close')">Exit</span>
+          </div>
         </div>
-        <div class="modal-footer">
-          <span class="newsPage-closer ml-3"
-                @click="postVotes">Post</span>
-          <span class="newsPage-closer ml-3"
-                @click="$emit('close')">Exit</span>
-        </div>
-      </div>
-      <div class="modal-container">
+        <div class="modal-container">
 
-        <div class="modal-header">Votes</div>
+          <div class="modal-header">Votes</div>
 
-        <div class="modal-body">
-          <div class="container-fluid w-100">
-            <div class="w-100 row mb-2 text-white">
-              <div v-for="row in rows"
-                   v-bind:key="row.alternatives"
+          <div class="modal-body">
+            <div class="container-fluid w-100">
+              <div class="w-100 row mb-2 text-white">
+                <div v-for="row in rows"
+                     v-bind:key="row.alternatives"
 
-              >
-                {{row}}
+                >
+                  {{row}}
+                </div>
               </div>
             </div>
           </div>
@@ -81,10 +89,22 @@ export default {
     return {
       votes: 0,
       expectedRow: [],
-      rows: []
+      rows: [],
+      alternativesVotes: []
     }
   },
   methods: {
+    checkInput(e) {
+      const value = parseInt(e.target.value)
+      if(value === undefined)
+        return
+
+      if(value > 10000)
+        this.votes = 10000;
+
+      if(value < 1 || isNaN(value))
+        this.votes = 1
+    },
     onKeyDown(e) {
       if (e.key === 'Enter')
         this.addRows()
@@ -92,9 +112,8 @@ export default {
       if (e.key === 'Escape')
         this.$emit('close')
     },
-    addRows(rows) {
-      this.expectedRow = []
-      if (rows.length < this.columns.length) {
+    addRows() {
+      if (this.expectedRow.length < this.columns.length) {
         notify({
           title: 'Error',
           text: 'Add all ' + this.columns.length + ' alternatives',
@@ -103,12 +122,16 @@ export default {
         return
       }
       let name = ''
-      rows.forEach((item) => {
+      this.expectedRow.forEach((item) => {
         name += item + '->';
       })
       name = name.slice(0, name.length - 2)
-      console.log(name + " " + rows)
-      this.rows.push({Voters: this.votes, Alternatives: name})
+
+      let isFound = this.rows.find(x => x.Alternatives === name)
+      if(isFound)  this.rows[this.rows.indexOf(isFound)].Voters = parseInt(this.rows[this.rows.indexOf(isFound)].Voters) + parseInt(this.votes)
+      else  this.rows.push({Voters: this.votes, Alternatives: name})
+      this.getFinalVotes()
+      this.expectedRow = []
     },
     getName(rows) {
       let name = ''
@@ -116,6 +139,16 @@ export default {
         name += item + '->';
       })
       return `${name.slice(0, name.length - 2)}`
+    },
+    getFinalVotes() {
+      for (let i = 0; i < this.expectedRow.length; ++i) {
+        let isFound = this.alternativesVotes.find(x => x.Alternatives === this.expectedRow[i])
+        if (isFound)  {
+          this.alternativesVotes[this.alternativesVotes.indexOf(isFound)].Voters =
+              parseInt(this.alternativesVotes[this.alternativesVotes.indexOf(isFound)].Voters) + (parseInt(this.votes) * (this.expectedRow.length + 1 - i))
+        }
+        else  this.alternativesVotes.push({Voters: this.votes, Alternatives: this.expectedRow[i]})
+      }
     },
     postVotes() {
       if (!this.rows.length) {
@@ -126,7 +159,7 @@ export default {
         })
         return
       }
-      this.$emit('post', this.rows)
+      this.$emit('post', this.rows, this.alternativesVotes)
     }
   }
 }
