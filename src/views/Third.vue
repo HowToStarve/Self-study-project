@@ -105,9 +105,8 @@ export default {
       this.isInAddingAlternatives = false
     },
     createFullTable(rows) {
-      this.column = []
       this.row = []
-      for(let i = 0; i < rows.length - 1; ++i) {
+      for(let i = 0; i < rows.length; ++i) {
         this.addRow(rows[i])
       }
     },
@@ -115,8 +114,7 @@ export default {
       this.alternatives.push(column)
     },
     addRow(row){
-      let finale = row
-      this.row.push(finale)
+      this.row.push(row)
     }
   }
 }

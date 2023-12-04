@@ -9,24 +9,53 @@
           <div class="container-fluid w-100">
             <div class="w-100 row mb-2 text-white">
               <div class="w-50 mt-5">
-                <input
+                <div
                     type="checkbox"
-                    v-model="expectedRow"
-                    :value="column"
-                    :id="index"
+                    :key="index"
                     v-for="(column, index) in columns">
-                  <label for="index">
+                  <input
+                        type="checkbox"
+                        v-model="expectedRow"
+                        :value="column"
+                        :id="index"
+                  >
+                  <label :for="index">
                     {{column}}
                   </label>
+                </div>
+                <input v-model="votes" placeholder="Количество голосующих">
                 <button class="button1"
-                        v-on:click="addRows()">
-                  Добавить альтернативу
+                        v-on:click="addRows(expectedRow)">
+                  Добавить голосующих
                 </button>
               </div>
               <div class="row text-white w-50">
                 <div class="main-text">
-                  {{expectedRow}}
+                  {{ getName(expectedRow) }}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="newsPage-closer ml-3"
+                @click="postVotes">Post</span>
+          <span class="newsPage-closer ml-3"
+                @click="$emit('close')">Exit</span>
+        </div>
+      </div>
+      <div class="modal-container">
+
+        <div class="modal-header">Votes</div>
+
+        <div class="modal-body">
+          <div class="container-fluid w-100">
+            <div class="w-100 row mb-2 text-white">
+              <div v-for="row in rows"
+                   v-bind:key="row.alternatives"
+
+              >
+                {{row}}
               </div>
             </div>
           </div>
@@ -50,40 +79,55 @@ export default {
   },
   data() {
     return {
-      expectedRow: [],
       votes: 0,
+      expectedRow: [],
       rows: []
     }
   },
   methods: {
     onKeyDown(e) {
-      if(e.key === 'Enter')
-        this.$emit('post', this.rows)
+      if (e.key === 'Enter')
+        this.addRows()
 
-      if(e.key === 'Escape')
+      if (e.key === 'Escape')
         this.$emit('close')
-    }
-  },
-  addRows() {
-    if (this.expectedRow.length < this.columns.length){
-      notify({
-        title: 'Error',
-        text: 'Add all ' + this.columns.length + ' alternatives',
-        type: 'warn'
+    },
+    addRows(rows) {
+      this.expectedRow = []
+      if (rows.length < this.columns.length) {
+        notify({
+          title: 'Error',
+          text: 'Add all ' + this.columns.length + ' alternatives',
+          type: 'warn'
+        })
+        return
+      }
+      let name = ''
+      rows.forEach((item) => {
+        name += item + '->';
       })
-      return
+      name = name.slice(0, name.length - 2)
+      console.log(name + " " + rows)
+      this.rows.push({Voters: this.votes, Alternatives: name})
+    },
+    getName(rows) {
+      let name = ''
+      rows.forEach((item) => {
+        name += item + '->';
+      })
+      return `${name.slice(0, name.length - 2)}`
+    },
+    postVotes() {
+      if (!this.rows.length) {
+        notify({
+          title: 'Error',
+          text: 'Add alternatives',
+          type: 'warn'
+        })
+        return
+      }
+      this.$emit('post', this.rows)
     }
-
-    let name = ''
-    this.expectedRows.forEach((item) => {
-      name += item + '->';
-    })
-    name.slice(0, name.length - 2)
-    this.rows.push({Voters: this.votes, Alternatives: name})
-    this.expectedRows = []
-  },
-  postVotes() {
-
   }
 }
 </script>

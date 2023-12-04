@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import {notify} from "@kyvg/vue3-notification";
+
 export default {
   name: "AddAlternatives",
   mounted() {
@@ -60,7 +62,7 @@ export default {
   methods: {
     onKeyDown(e) {
       if(e.key === 'Enter')
-        this.postAlternatives()
+        this.addColumn(this.text)
 
       if(e.key === 'Escape')
         this.$emit('close')
@@ -70,6 +72,14 @@ export default {
       this.text = ''
     },
     postAlternatives() {
+      if (!this.columns.length) {
+        notify({
+          title: 'Error',
+          text: 'Add alternatives',
+          type: 'warn'
+        })
+        return
+      }
       this.$emit('post', this.columns)
     }
   }
@@ -203,6 +213,7 @@ input {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  margin-top: 15px;
 }
 
 .button1:hover,
