@@ -1,4 +1,15 @@
 <template>
+  <AddAlternatives
+      v-if="isInAddingAlternatives"
+      @close="isInAddingAlternatives = false"
+      @post="(columns) => { createAlternatives(columns) }"
+  />
+  <AddVotes
+      v-if="isInAddingVotes && column.length"
+      v-bind:columns = "alternatives"
+      @close="isInAddingVotes = false"
+      @post="(rows) => { createFullTable(rows) }"
+  />
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
       Example
@@ -6,7 +17,20 @@
     <div
         class="main-text">
     </div>
-
+    <div class="d-flex flex-wrap justify-content-center pl-5">
+      <div
+          class="action-button"
+          @click="isInAddingAlternatives = true"
+      >
+        <i class="fa-solid fa-upload"></i>
+      </div>
+      <div
+          class="action-button"
+          @click="isInAddingVotes = true"
+      >
+        <i class="fa-solid fa-upload ml-5"></i>
+      </div>
+    </div>
     <div class="container-fluid">
         <ag-grid-vue
             :class="themeClass + ' w-100 ml-2'"
@@ -23,10 +47,14 @@ import {notify} from "@kyvg/vue3-notification";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
+import AddAlternatives from "@/components/AddAlternatives.vue";
+import AddVotes from "@/components/AddVotes.vue";
 export default {
   name: "IndexView",
   components: {
-    AgGridVue
+    AgGridVue,
+    AddAlternatives,
+    AddVotes
   },
   beforeUnmount() {
     this.row = []
@@ -34,28 +62,31 @@ export default {
   },
   data() {
     return {
+      alternatives: [],
       row: [
-        {hello: '9', hi: '1'},
-        {hello: '8', hi: '2'},
-        {hello: '7', hi: '3'},
-        {hello: '6', hi: '4'},
-        {hello: '5', hi: '5'},
-        {hello: '4', hi: '6'},
-        {hello: '3', hi: '7'},
-        {hello: '2', hi: '8'},
-        {hello: '1', hi: '9'}
+        {Voters: '9', Alternatives: '1'},
+        {Voters: '8', Alternatives: '2'},
+        {Voters: '7', Alternatives: '3'},
+        {Voters: '6', Alternatives: '4'},
+        {Voters: '5', Alternatives: '5'},
+        {Voters: '4', Alternatives: '6'},
+        {Voters: '3', Alternatives: '7'},
+        {Voters: '2', Alternatives: '8'},
+        {Voters: '1', Alternatives: '9'}
       ],
       column: [
           {
-            field: 'hello',
+            field: 'Voters',
             width: 850
           },
           {
-            field: 'hi',
+            field: 'Alternatives',
             width: 850
           }
       ],
-      themeClass: "ag-theme-quartz-dark"
+      themeClass: "ag-theme-quartz-dark",
+      isInAddingAlternatives: false,
+      isInAddingVotes: false
     }
   },
   methods: {
@@ -66,11 +97,26 @@ export default {
         type: 'warn'
       })
     },
-    addColumns(column) {
-      this.column.push(column)
+    createAlternatives(columns) {
+      this.alternatives = []
+      for(let i = 0; i < columns.length; ++i) {
+        this.addAlternatives(columns[i])
+      }
+      this.isInAddingAlternatives = false
+    },
+    createFullTable(rows) {
+      this.column = []
+      this.row = []
+      for(let i = 0; i < rows.length - 1; ++i) {
+        this.addRow(rows[i])
+      }
+    },
+    addAlternatives(column) {
+      this.alternatives.push(column)
     },
     addRow(row){
-      this.row.push(row)
+      let finale = row
+      this.row.push(finale)
     }
   }
 }
@@ -117,6 +163,12 @@ p {
   0% { color: #7ca4c8 }
   50% { color: lightcoral }
   100% { color: #7ca4c8 }
+}
+
+.action-button {
+  font-size: 55px;
+  cursor: pointer;
+  color: #7ca4c8;
 }
 
 .loading {
