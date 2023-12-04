@@ -59,10 +59,9 @@
             <div class="container-fluid w-100">
               <div class="w-100 row mb-2 text-white">
                 <div v-for="row in rows"
-                     v-bind:key="row.alternatives"
-
+                     v-bind:key="row.Alternatives"
                 >
-                  {{row}}
+                  Голоса: "{{row.Voters}}" для схемы "{{row.Alternatives}}"
                 </div>
               </div>
             </div>
@@ -145,9 +144,9 @@ export default {
         let isFound = this.alternativesVotes.find(x => x.Alternatives === this.expectedRow[i])
         if (isFound)  {
           this.alternativesVotes[this.alternativesVotes.indexOf(isFound)].Voters =
-              parseInt(this.alternativesVotes[this.alternativesVotes.indexOf(isFound)].Voters) + (parseInt(this.votes) * (this.expectedRow.length + 1 - i))
+              parseInt(this.alternativesVotes[this.alternativesVotes.indexOf(isFound)].Voters) + (this.votes * (this.expectedRow.length + 1 - i))
         }
-        else  this.alternativesVotes.push({Voters: this.votes, Alternatives: this.expectedRow[i]})
+        else this.alternativesVotes.push({Voters: (this.votes * (this.expectedRow.length + 1 - i)), Alternatives: this.expectedRow[i]})
       }
     },
     postVotes() {

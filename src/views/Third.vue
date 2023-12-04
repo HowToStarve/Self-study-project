@@ -10,6 +10,11 @@
       @close="isInAddingVotes = false"
       @post="(rows, alternativeVotes) => { createFullTable(rows, alternativeVotes) }"
   />
+  <WinnerView
+      v-if="isInWinnerView"
+      :finalVotes = "finalVotes"
+      @close="isInWinnerView = false"
+  />
   <div class="col-md-9 block">
     <div class="big-header-text position-relative">
       Example
@@ -28,7 +33,13 @@
           class="action-button"
           @click="isInAddingVotes = true"
       >
-        <i class="fa-solid fa-upload ml-5"></i>
+        <i class="fa-solid fa-cloud-upload ml-5"></i>
+      </div>
+      <div
+          class="action-button"
+          @click="isInWinnerView = true"
+      >
+        <i class="fa-solid fa-download ml-5"></i>
       </div>
     </div>
     <div class="container-fluid">
@@ -49,12 +60,14 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 import AddAlternatives from "@/components/AddAlternatives.vue";
 import AddVotes from "@/components/AddVotes.vue";
+import WinnerView from "@/components/WinnerView.vue";
 export default {
   name: "IndexView",
   components: {
     AgGridVue,
     AddAlternatives,
-    AddVotes
+    AddVotes,
+    WinnerView
   },
   beforeUnmount() {
     this.row = []
@@ -63,30 +76,22 @@ export default {
   data() {
     return {
       alternatives: [],
-      row: [
-        {Voters: 9, Alternatives: '1'},
-        {Voters: 8, Alternatives: '2'},
-        {Voters: 7, Alternatives: '3'},
-        {Voters: 6, Alternatives: '4'},
-        {Voters: 5, Alternatives: '5'},
-        {Voters: 4, Alternatives: '6'},
-        {Voters: 3, Alternatives: '7'},
-        {Voters: 2, Alternatives: '8'},
-        {Voters: 1, Alternatives: '9'}
-      ],
+      finalVotes: [],
+      row: [],
       column: [
           {
             field: 'Voters',
-            width: 850
+            width: 450
           },
           {
             field: 'Alternatives',
-            width: 850
+            width: 650
           }
       ],
       themeClass: "ag-theme-quartz-dark",
       isInAddingAlternatives: false,
-      isInAddingVotes: false
+      isInAddingVotes: false,
+      isInWinnerView: false
     }
   },
   methods: {
@@ -108,11 +113,14 @@ export default {
       this.row = []
       for(let i = 0; i < rows.length; ++i) {
         this.addRow(rows[i])
-      }
-      for(let i = 0; i < alternativeVotes.length; ++i) {
         console.log(alternativeVotes[i])
       }
+      this.finalVotes = alternativeVotes.sort()[alternativeVotes.length - 1]
+      console.log(alternativeVotes)
+      alternativeVotes = alternativeVotes.sort()
+      console.log(alternativeVotes)
       this.isInAddingVotes = false
+      this.isInWinnerView = true
     },
     addAlternatives(column) {
       this.alternatives.push(column)
